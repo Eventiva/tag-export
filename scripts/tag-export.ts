@@ -25,25 +25,25 @@ import * as core from '@actions/core'
   const prTitle = lastMergedPullRequest?.title
   const prNumber = lastMergedPullRequest?.number
 
-  core.info('PR title: ' + prTitle)
-  core.info('PR number: ' + prNumber)
+  core.info(`PR title: ${prTitle}`)
+  core.info(`PR number: ${prNumber}`)
 
   if (prTitle) {
     messageText = prTitle
   } else if (prNumber) {
     const { data: commits } = await octokit.rest.pulls.listCommits({
-      owner: owner,
-      repo: repo,
+      owner,
+      repo,
       pull_number: prNumber
     })
 
     if (commits.length > 0) {
       messageText = commits[commits.length - 1].commit.message
-      core.info('Last commit message: ' + messageText)
+      core.info(`Last commit message: ${messageText}`)
     }
   }
 
-  core.info('Tag message Text: ' + messageText)
+  core.info(`Tag message Text: ${messageText}`)
   return messageText
 }
 /**
@@ -55,10 +55,7 @@ import * as core from '@actions/core'
  * @returns This function takes in a string and a boolean flag, and returns a string or null. It searches for keywords in the input string and returns the matching keyword if found, otherwise null. The search can be performed in two different ways: if the 'fullMatch' flag is true, it checks for an exact match between the input string and the keywords; otherwise, it checks if the input string includes a specific keyword enclosed in square brackets.
  */
 
-function getVersionKeyword(
-  text: string,
-  fullMatch: boolean = false
-): string | null {
+function getVersionKeyword(text: string, fullMatch = false): string | null {
   const keywords = ['patch', 'major', 'minor', 'pre-release']
 
   return (
@@ -100,7 +97,7 @@ async function fetchVersionFromLatestCommitPR(): Promise<string | null> {
   })
 
   const commitMessage = commit?.commit?.message
-  core.info('Commit Message: ' + commitMessage)
+  core.info(`Commit Message: ${commitMessage}`)
 
   if (!repo || !commitMessage) {
     core.info('Repo information or commit message is not available.')
@@ -110,7 +107,7 @@ async function fetchVersionFromLatestCommitPR(): Promise<string | null> {
   const prNumberMatch = /Merge pull request #(\d+)/.exec(commitMessage)
   if (prNumberMatch) {
     const prNumber = prNumberMatch[1]
-    core.info('PR Number: ' + prNumber)
+    core.info(`PR Number: ${prNumber}`)
     const {
       data: { title, labels }
     } = await octokit.rest.pulls.get({

@@ -10953,23 +10953,23 @@ const core = __importStar(__nccwpck_require__(2186));
     const lastMergedPullRequest = pullRequests.find(pr => pr.merged_at !== null);
     const prTitle = lastMergedPullRequest === null || lastMergedPullRequest === void 0 ? void 0 : lastMergedPullRequest.title;
     const prNumber = lastMergedPullRequest === null || lastMergedPullRequest === void 0 ? void 0 : lastMergedPullRequest.number;
-    core.info('PR title: ' + prTitle);
-    core.info('PR number: ' + prNumber);
+    core.info(`PR title: ${prTitle}`);
+    core.info(`PR number: ${prNumber}`);
     if (prTitle) {
         messageText = prTitle;
     }
     else if (prNumber) {
         const { data: commits } = yield octokit.rest.pulls.listCommits({
-            owner: owner,
-            repo: repo,
+            owner,
+            repo,
             pull_number: prNumber
         });
         if (commits.length > 0) {
             messageText = commits[commits.length - 1].commit.message;
-            core.info('Last commit message: ' + messageText);
+            core.info(`Last commit message: ${messageText}`);
         }
     }
-    core.info('Tag message Text: ' + messageText);
+    core.info(`Tag message Text: ${messageText}`);
     return messageText;
 });
 /**
@@ -11014,7 +11014,7 @@ function fetchVersionFromLatestCommitPR() {
             ref: branch
         });
         const commitMessage = (_a = commit === null || commit === void 0 ? void 0 : commit.commit) === null || _a === void 0 ? void 0 : _a.message;
-        core.info('Commit Message: ' + commitMessage);
+        core.info(`Commit Message: ${commitMessage}`);
         if (!repo || !commitMessage) {
             core.info('Repo information or commit message is not available.');
             return null;
@@ -11022,7 +11022,7 @@ function fetchVersionFromLatestCommitPR() {
         const prNumberMatch = /Merge pull request #(\d+)/.exec(commitMessage);
         if (prNumberMatch) {
             const prNumber = prNumberMatch[1];
-            core.info('PR Number: ' + prNumber);
+            core.info(`PR Number: ${prNumber}`);
             const { data: { title, labels } } = yield octokit.rest.pulls.get({
                 owner: repo.owner,
                 repo: repo.repo,

@@ -67,3 +67,5 @@ jobs:
 
       - name: Bit Tag and Export
         uses: ./
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
