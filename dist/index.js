@@ -10940,7 +10940,7 @@ const core = __importStar(__nccwpck_require__(2186));
 /**
  *
  */ const createTagMessageText = (githubToken) => __awaiter(void 0, void 0, void 0, function* () {
-    const { repo, owner } = github_1.context === null || github_1.context === void 0 ? void 0 : github_1.context.repo;
+    const { repo, owner } = github_1.context.repo;
     const octokit = (0, github_1.getOctokit)(githubToken);
     let messageText = 'CI';
     const { data: pullRequests } = yield octokit.rest.pulls.list({

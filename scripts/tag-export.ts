@@ -7,7 +7,7 @@ import * as core from '@actions/core'
  */ const createTagMessageText = async (
   githubToken: string
 ): Promise<string> => {
-  const { repo, owner } = context?.repo
+  const { repo, owner } = context.repo
   const octokit = getOctokit(githubToken)
 
   let messageText = 'CI'
